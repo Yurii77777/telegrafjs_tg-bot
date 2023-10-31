@@ -26,6 +26,14 @@ export class TelegramService {
       }
     });
 
+    bot.command('set_language', async (ctx: any) => {
+      try {
+        await this.telegramCommandsService.setLanguage(ctx);
+      } catch (error) {
+        console.log('Error setLanguage :::', error);
+      }
+    });
+
     bot.launch();
   }
 }
