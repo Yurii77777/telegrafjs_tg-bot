@@ -3,12 +3,16 @@ const { Scenes, session } = require('telegraf');
 import { bot } from '../../config/telegram.config';
 
 import { TelegramCommandsService } from './telegramCommands.service';
+import { TelegramUpdateUserScene } from './scenes/updateUserScene.service';
+import { TELEGRAM_BOT_SCENES } from '../../constants/telegramBotScenes';
 
 export class TelegramService {
   private telegramCommandsService: TelegramCommandsService;
+  private telegramUpdateUserScene: TelegramUpdateUserScene;
 
   constructor() {
     this.telegramCommandsService = new TelegramCommandsService();
+    this.telegramUpdateUserScene = new TelegramUpdateUserScene();
   }
 
   async handleBotEvents() {
@@ -17,6 +21,12 @@ export class TelegramService {
     } catch (error) {
       console.log('[error]', error);
     }
+
+    const scenes = new Scenes.Stage([this.telegramUpdateUserScene.updateUserScene]);
+
+    // Scenes
+    bot.use(session());
+    bot.use(scenes.middleware());
 
     bot.command('start', async (ctx: any) => {
       try {
@@ -31,6 +41,14 @@ export class TelegramService {
         await this.telegramCommandsService.setLanguage(ctx);
       } catch (error) {
         console.log('Error setLanguage :::', error);
+      }
+    });
+
+    bot.command('update_user', async (ctx: any) => {
+      try {
+        await ctx.scene.enter(TELEGRAM_BOT_SCENES.UPDATE_USER);
+      } catch (error) {
+        console.log(`[Error ${TELEGRAM_BOT_SCENES.UPDATE_USER}] :::`, error);
       }
     });
 

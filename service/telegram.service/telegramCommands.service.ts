@@ -29,6 +29,10 @@ export class TelegramCommandsService {
         command: '/set_language',
         description: "Встановити мову бота | Set bot's language",
       },
+      {
+        command: '/update_user',
+        description: 'Оновити дані | Update user',
+      },
     ]);
   }
 

@@ -1,4 +1,4 @@
 export const TELEGRAM_BOT_SCENES = {
-  USER_REGISTER: 'updateUserScene',
+  UPDATE_USER: 'updateUserScene',
   ADD_POST: 'addPostScene',
 };
