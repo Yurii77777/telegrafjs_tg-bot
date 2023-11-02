@@ -4,15 +4,18 @@ import { bot } from '../../config/telegram.config';
 
 import { TelegramCommandsService } from './telegramCommands.service';
 import { TelegramUpdateUserScene } from './scenes/updateUserScene.service';
+import { TelegramAddPostScene } from './scenes/addPostScene.service';
 import { TELEGRAM_BOT_SCENES } from '../../constants/telegramBotScenes';
 
 export class TelegramService {
   private telegramCommandsService: TelegramCommandsService;
   private telegramUpdateUserScene: TelegramUpdateUserScene;
+  private telegramAddPostScene: TelegramAddPostScene;
 
   constructor() {
     this.telegramCommandsService = new TelegramCommandsService();
     this.telegramUpdateUserScene = new TelegramUpdateUserScene();
+    this.telegramAddPostScene = new TelegramAddPostScene();
   }
 
   async handleBotEvents() {
@@ -22,7 +25,10 @@ export class TelegramService {
       console.log('[error]', error);
     }
 
-    const scenes = new Scenes.Stage([this.telegramUpdateUserScene.updateUserScene]);
+    const scenes = new Scenes.Stage([
+      this.telegramUpdateUserScene.updateUserScene,
+      this.telegramAddPostScene.addPostScene,
+    ]);
 
     // Scenes
     bot.use(session());
@@ -49,6 +55,14 @@ export class TelegramService {
         await ctx.scene.enter(TELEGRAM_BOT_SCENES.UPDATE_USER);
       } catch (error) {
         console.log(`[Error ${TELEGRAM_BOT_SCENES.UPDATE_USER}] :::`, error);
+      }
+    });
+
+    bot.command('add_post', async (ctx: any) => {
+      try {
+        await ctx.scene.enter(TELEGRAM_BOT_SCENES.ADD_POST);
+      } catch (error) {
+        console.log(`[Error ${TELEGRAM_BOT_SCENES.ADD_POST}] :::`, error);
       }
     });
 

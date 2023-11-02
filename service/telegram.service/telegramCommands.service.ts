@@ -33,6 +33,10 @@ export class TelegramCommandsService {
         command: '/update_user',
         description: 'Оновити дані | Update user',
       },
+      {
+        command: '/add_post',
+        description: 'Додати пост | Add post',
+      },
     ]);
   }
 
