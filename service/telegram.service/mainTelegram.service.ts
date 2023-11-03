@@ -66,6 +66,22 @@ export class TelegramService {
       }
     });
 
+    bot.command('add_to_google_sheets', async (ctx: any) => {
+      try {
+        await this.telegramCommandsService.sendUserDataToGoogleSheets(ctx);
+      } catch (error) {
+        console.log(`[Error sendUserDataToGoogleSheets :::`, error);
+      }
+    });
+
+    bot.command('get_from_google_sheets', async (ctx: any) => {
+      try {
+        await this.telegramCommandsService.getDataFromGoogleSheets(ctx);
+      } catch (error) {
+        console.log(`[Error sendUserDataToGoogleSheets :::`, error);
+      }
+    });
+
     bot.launch();
   }
 }
